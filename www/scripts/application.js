@@ -9,10 +9,25 @@ define(["require", "exports"], function (require, exports) {
         document.addEventListener('deviceready', onDeviceReady, false);
     }
     exports.initialize = initialize;
+    var exitKiosk = document.getElementById("exitKiosk");
+    exitKiosk.onclick = function () {
+        KioskPlugin.exitKiosk();
+    };
+    var detectarKiosk = document.getElementById("detectarKiosk");
+    detectarKiosk.onclick = function () {
+        KioskPlugin.isInKiosk(function (isInKiosk) {
+            document.getElementById("debug").innerText = isInKiosk;
+        });
+    };
+    var detectarLauncher = document.getElementById("detectarLauncher");
+    detectarLauncher.onclick = function () {
+        KioskPlugin.isSetAsLauncher(function (isLauncher) {
+            document.getElementById("debug").innerText = isLauncher;
+        });
+    };
     function onDeviceReady() {
         document.addEventListener('pause', onPause, false);
         document.addEventListener('resume', onResume, false);
-        document.getElementById("debug").innerText = KioskPlugin.toString();
         //document.getElementById("debug").innerHTML = "pasé por onDeviceReady";
         // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.
         /*

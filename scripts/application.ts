@@ -10,11 +10,38 @@ export function initialize(): void {
     document.addEventListener('deviceready', onDeviceReady, false);
 }
 
+var exitKiosk = document.getElementById("exitKiosk");
+
+exitKiosk.onclick = function () {
+
+    KioskPlugin.exitKiosk();
+}
+
+var detectarKiosk = document.getElementById("detectarKiosk");
+
+detectarKiosk.onclick = function () {
+
+    KioskPlugin.isInKiosk(function (isInKiosk) {
+
+        document.getElementById("debug").innerText = isInKiosk;
+
+    });
+}
+
+var detectarLauncher = document.getElementById("detectarLauncher");
+
+detectarLauncher.onclick = function () {
+
+    KioskPlugin.isSetAsLauncher(function (isLauncher) {
+
+        document.getElementById("debug").innerText = isLauncher;
+
+    });
+}
+
 function onDeviceReady(): void {
     document.addEventListener('pause', onPause, false);
     document.addEventListener('resume', onResume, false);
-
-    document.getElementById("debug").innerText = KioskPlugin.toString();
 
     //document.getElementById("debug").innerHTML = "pasé por onDeviceReady";
 

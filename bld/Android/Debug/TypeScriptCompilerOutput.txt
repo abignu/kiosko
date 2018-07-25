@@ -1,0 +1,4 @@
+C:\Users\agustin\Google Drive\Clientes\Kubiko\Kubiko Web App\Kiosko\www\scripts\application.js
+C:\Users\agustin\Google Drive\Clientes\Kubiko\Kubiko Web App\Kiosko\www\scripts\application.js.map
+C:\Users\agustin\Google Drive\Clientes\Kubiko\Kubiko Web App\Kiosko\www\scripts\startup.js
+C:\Users\agustin\Google Drive\Clientes\Kubiko\Kubiko Web App\Kiosko\www\scripts\startup.js.map

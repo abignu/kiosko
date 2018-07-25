@@ -1,11 +1,15 @@
 ﻿<!DOCTYPE html>
 <html style="margin: 0; padding: 0;">
 <head>
-    <!--
-        Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
-        For details, see http://go.microsoft.com/fwlink/?LinkID=617521
-    -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self' 'unsafe-eval' data: blob: filesystem: ws: gap: file: cdvfile: https://ssl.gstatic.com *;
+                   style-src * 'unsafe-inline';
+                   script-src * 'unsafe-inline' 'unsafe-eval';
+                   img-src * data: 'unsafe-inline';
+                   connect-src * 'unsafe-inline';
+                   child-src *;
+                   frame-src *;">
 
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="format-detection" content="telephone=no">
@@ -18,7 +22,8 @@
     <iframe src="http://bk.bignu.es" style="position:fixed; top:0px; left:0px; bottom:100px; right:0px; width:100%; height:90%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;">
         Your browser doesn't support iframes
     </iframe>
-    <button onclick="KioskPlugin.exitKiosk()" style="height: 100px;">Desactivar Kiosco</button>
+    <button onclick="KioskPlugin.exitKiosk();" style="height: 100px;position: fixed;bottom: 0;">Desactivar Kiosco</button>
+    <button onclick="alert(KioskPlugin.isInKiosk())" style="height: 100px;position: fixed;bottom: 0;left: 200px;">Está en kiosko?</button>
     <script type="text/javascript" src="cordova.js"></script>
     <!-- The 'async' attribute is needed for RequireJS to work in a Windows app -->
     <script type="text/javascript" data-main="scripts/startup" src="lib/require.2.1.8.js" async></script>

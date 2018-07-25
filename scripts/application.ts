@@ -14,6 +14,8 @@ function onDeviceReady(): void {
     document.addEventListener('pause', onPause, false);
     document.addEventListener('resume', onResume, false);
 
+    document.getElementById("debug").innerText = KioskPlugin.toString();
+
     //document.getElementById("debug").innerHTML = "pasé por onDeviceReady";
 
     // TODO: Cordova has been loaded. Perform any initialization that requires Cordova here.

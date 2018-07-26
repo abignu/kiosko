@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <widget xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps" id="io.cordova.myapp96618a" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" defaultlocale="en-US">
   <name>Kiosko</name>
-  <description>A blank project that uses Apache Cordova to help you build an app that targets multiple mobile platforms: Android, iOS, and the Windows Universal Platform.</description>
+  <description>Kiosko Quick Games.</description>
   <author href="http://cordova.io" email="dev@cordova.apache.org">Kubiko</author>
   <vs:template-name>BlankTS</vs:template-name>
   <vs:toolsetVersion>6.3.1</vs:toolsetVersion>
@@ -12,15 +12,7 @@
   <preference name="windows-target-version" value="10.0" />
   <!-- Support for Cordova 5.0.0 plugin system -->
   <plugin name="cordova-plugin-whitelist" spec="1.2.2" />
-  <allow-intent href="http://*/*" />
-  <allow-intent href="https://*/*" />
-  <allow-intent href="tel:*" />
-  <allow-intent href="sms:*" />
-  <allow-intent href="mailto:*" />
-  <allow-intent href="geo:*" />
-  <platform name="android">
-    <allow-intent href="market:*" />
-  </platform>
+  <allow-navigation href="http://*/*" />
   <platform name="android">
     <icon src="res/icons/android/icon-36-ldpi.png" density="ldpi" />
     <icon src="res/icons/android/icon-48-mdpi.png" density="mdpi" />

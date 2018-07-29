@@ -10,38 +10,10 @@ export function initialize(): void {
     document.addEventListener('deviceready', onDeviceReady, false);
 }
 
-var exitKiosk = document.getElementById("exitKiosk");
-
-exitKiosk.onclick = function () {
-
-    KioskPlugin.exitKiosk();
-}
-
-var detectarKiosk = document.getElementById("detectarKiosk");
-
-detectarKiosk.onclick = function () {
-
-    KioskPlugin.isInKiosk(function (isInKiosk) {
-
-        document.getElementById("debug").innerText = isInKiosk;
-
-    });
-}
-
-var detectarLauncher = document.getElementById("detectarLauncher");
-
-detectarLauncher.onclick = function () {
-
-    KioskPlugin.isSetAsLauncher(function (isLauncher) {
-
-        document.getElementById("debug").innerText = isLauncher;
-
-    });
-}
-
 function onDeviceReady(): void {
-    document.addEventListener('pause', onPause, false);
-    document.addEventListener('resume', onResume, false);
+
+    //document.addEventListener('pause', onPause, false);
+    //document.addEventListener('resume', onResume, false);
 
     //document.getElementById("debug").innerHTML = "pasé por onDeviceReady";
 
@@ -53,8 +25,44 @@ function onDeviceReady(): void {
     listeningElement.setAttribute('style', 'display:none;');
     receivedElement.setAttribute('style', 'display:block;');
     */
+
+    console.log("device ready!");
+
+    window.addEventListener("message", (e: MessageEvent) => {
+
+        var msg: any = e.data.data;        // comando recibido
+        console.log("Mensaje recibido desde el iframe", msg);
+
+        switch (msg) {
+            case 'kiosko':
+                KioskPlugin.isInKiosk(function (isInKiosk) {
+
+                    document.getElementById("debug").innerText = 'kiosko: ' + isInKiosk;
+                    setTimeout(limpiarDebug, 2000);
+                });
+                break;
+
+            case 'launcher':
+                KioskPlugin.isSetAsLauncher(function (isLauncher) {
+
+                    document.getElementById("debug").innerText = 'launcher ' + isLauncher;
+                    setTimeout(limpiarDebug, 2000);
+                });
+                break;
+
+            case 'quit':
+                KioskPlugin.exitKiosk();
+                break;
+        }
+    }, false);
+
 }
 
+function limpiarDebug() {
+    document.getElementById("debug").innerText = '';
+}
+
+/*
 function onPause(): void {
     // TODO: This application has been suspended. Save application state here.
 }
@@ -62,3 +70,4 @@ function onPause(): void {
 function onResume(): void {
     // TODO: This application has been reactivated. Restore application state here.
 }
+*/

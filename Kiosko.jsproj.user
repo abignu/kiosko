@@ -4,7 +4,7 @@
     <ToolsVersionPromptShown>2.8</ToolsVersionPromptShown>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">
-    <DebuggerFlavor>SimulateNexus6</DebuggerFlavor>
+    <DebuggerFlavor>SimulateNexus7</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Android'">
     <DebuggerFlavor>SimulateG5</DebuggerFlavor>

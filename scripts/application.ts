@@ -27,7 +27,21 @@ function onDeviceReady(): void {
     */
 
     console.log("device ready!");
+    InitMessageEventListener();
+}
 
+var cargadoReceptorMessages = false;
+setTimeout(InitMessageEventListener, 10000);
+
+// se llama postdatada al cargar el JS y también onDeviceReady (el onDeviceReady no se carga al hacer return de los juegos)
+function InitMessageEventListener() {
+
+    if (cargadoReceptorMessages)        // si ya lo cargué
+        return;                             // me voy
+
+    cargadoReceptorMessages = true;     // cierro puerta de próxima llamada
+
+    // poner a escuchar eventos "message"
     window.addEventListener("message", (e: MessageEvent) => {
 
         var msg: any = e.data.data;        // comando recibido
@@ -37,7 +51,7 @@ function onDeviceReady(): void {
             case 'kiosko':
                 KioskPlugin.isInKiosk(function (isInKiosk) {
 
-                    document.getElementById("debug").innerText = 'kiosko: ' + isInKiosk;
+                    document.getElementById("debug").innerText = 'kiosko: ' + isInKiosk.toString();
                     setTimeout(limpiarDebug, 2000);
                 });
                 break;
@@ -45,7 +59,7 @@ function onDeviceReady(): void {
             case 'launcher':
                 KioskPlugin.isSetAsLauncher(function (isLauncher) {
 
-                    document.getElementById("debug").innerText = 'launcher ' + isLauncher;
+                    document.getElementById("debug").innerText = 'launcher ' + isLauncher.toString();
                     setTimeout(limpiarDebug, 2000);
                 });
                 break;
@@ -55,7 +69,6 @@ function onDeviceReady(): void {
                 break;
         }
     }, false);
-
 }
 
 function limpiarDebug() {

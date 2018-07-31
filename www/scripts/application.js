@@ -34,8 +34,9 @@ define(["require", "exports"], function (require, exports) {
                 case 'quit':
                     var clave = window.prompt("Por favor, ingresa tu clave: ");
                     alert(clave);
-                    alert(clave == 'Kbk123');
-                    KioskPlugin.exitKiosk();
+                    alert(clave == 'kbk123');
+                    if (clave == "kbk123")
+                        KioskPlugin.exitKiosk();
                     break;
             }
         }, false);

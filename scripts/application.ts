@@ -69,9 +69,9 @@ function InitMessageEventListener() {
                 var clave = window.prompt("Por favor, ingresa tu clave: ");
 
                 alert(clave);
-                alert(clave == 'Kbk123');
+                alert(clave == 'kbk123');
 
-                //if (clave == "Kbk123")
+                if (clave == "kbk123")
                     KioskPlugin.exitKiosk();
                 break;
         }

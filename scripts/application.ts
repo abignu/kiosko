@@ -65,7 +65,14 @@ function InitMessageEventListener() {
                 break;
 
             case 'quit':
-                KioskPlugin.exitKiosk();
+
+                var clave = window.prompt("Por favor, ingresa tu clave: ");
+
+                alert(clave);
+                alert(clave == 'Kbk123');
+
+                //if (clave == "Kbk123")
+                    KioskPlugin.exitKiosk();
                 break;
         }
     }, false);

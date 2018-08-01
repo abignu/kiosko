@@ -5,6 +5,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">
     <DebuggerFlavor>SimulateNexus7</DebuggerFlavor>
+    <AndroidEmulatorID>AndroidInstallBuildTools;Install Android build tools...</AndroidEmulatorID>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Android'">
     <DebuggerFlavor>SimulateG5</DebuggerFlavor>

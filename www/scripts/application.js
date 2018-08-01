@@ -1,6 +1,8 @@
 define(["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    var ServerURL = "http://bk.bignu.es/games/quick/";
+    var xmlhttp = new XMLHttpRequest();
     function initialize() {
         document.addEventListener('deviceready', onDeviceReady, false);
     }
@@ -15,34 +17,45 @@ define(["require", "exports"], function (require, exports) {
         if (cargadoReceptorMessages)
             return;
         cargadoReceptorMessages = true;
+        StatusBar.hide();
+        SendToServer({ date: Date(), device: device });
         window.addEventListener("message", function (e) {
             var msg = e.data.data;
-            console.log("Mensaje recibido desde el iframe", msg);
             switch (msg) {
                 case 'kiosko':
                     KioskPlugin.isInKiosk(function (isInKiosk) {
-                        document.getElementById("debug").innerText = 'kiosko: ' + isInKiosk.toString();
-                        setTimeout(limpiarDebug, 2000);
+                        MsgDebug('kiosko: ' + isInKiosk.toString());
                     });
                     break;
                 case 'launcher':
                     KioskPlugin.isSetAsLauncher(function (isLauncher) {
-                        document.getElementById("debug").innerText = 'launcher ' + isLauncher.toString();
-                        setTimeout(limpiarDebug, 2000);
+                        MsgDebug('launcher ' + isLauncher.toString());
                     });
                     break;
                 case 'quit':
                     var clave = window.prompt("Por favor, ingresa tu clave: ");
-                    alert(clave);
-                    alert(clave == 'kbk123');
-                    if (clave == "kbk123")
+                    if (clave == "kbk123") {
+                        alert("ATENCIÓN: se va a salir del modo Kiosko!");
                         KioskPlugin.exitKiosk();
+                    }
+                    break;
+                default:
+                    SendToServer({ game: msg });
                     break;
             }
         }, false);
     }
     function limpiarDebug() {
         document.getElementById("debug").innerText = '';
+    }
+    function MsgDebug(msg) {
+        document.getElementById("debug").innerText = msg;
+        setTimeout(limpiarDebug, 2000);
+    }
+    function SendToServer(data) {
+        xmlhttp.open("POST", ServerURL + "api.php");
+        xmlhttp.setRequestHeader("Content-Type", "application/json");
+        xmlhttp.send(JSON.stringify(data));
     }
 });
 //# sourceMappingURL=application.js.map

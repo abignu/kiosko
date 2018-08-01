@@ -30,4 +30,6 @@
     <splash src="res/screens/android/screen-xhdpi-portrait.png" density="port-xhdpi" />
   </platform>
   <plugin name="cordova-plugin-kiosk" spec="~0.2" />
+  <plugin name="cordova-plugin-device" spec="~2.0.2" />
+  <plugin name="cordova-plugin-statusbar" spec="~2.4.2" />
 </widget>

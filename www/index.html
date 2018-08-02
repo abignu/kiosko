@@ -17,13 +17,24 @@
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <title>Kiosko Quick Games</title>
+
+    <style>
+        .cover { position:fixed; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999; }
+        iframe#games { display: block; }
+        div#offline { display: none; background-image:url(kiosko-offline.jpg); background-position: center; background-size: cover; background-repeat: no-repeat; }
+        div#debug { height: 100px; width: 200px; position: fixed; top: 50px; left: 200px; color: #fff; z-index: 1000000; }
+    </style>
 </head>
 <body style="margin: 0; padding: 0;">
-    <iframe src="http://bk.bignu.es/games/quick/" style="position:fixed; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;">
+
+    <iframe id="games" class="cover" src="http://bk.bignu.es/games/quick/">
         Please contact technical support / Por favor póngase en contacto con soporte técnico
     </iframe>
-    <div id="debug" style="height: 100px; width: 200px; position: fixed; top: 50px; left: 200px; color: #fff; z-index: 1000000;"></div>
+    <div id="offline" class="cover">el kiosko está offline</div>
+    <div id="debug"></div>
+
     <script type="text/javascript" src="cordova.js"></script>
+    
     <!-- The 'async' attribute is needed for RequireJS to work in a Windows app -->
     <script type="text/javascript" data-main="scripts/startup" src="lib/require.2.1.8.js" async></script>
 </body>

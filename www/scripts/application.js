@@ -19,43 +19,57 @@ define(["require", "exports"], function (require, exports) {
         cargadoReceptorMessages = true;
         StatusBar.hide();
         SendToServer({ date: Date(), device: device });
-        window.addEventListener("message", function (e) {
-            var msg = e.data.data;
-            switch (msg) {
-                case 'kiosko':
-                    KioskPlugin.isInKiosk(function (isInKiosk) {
-                        MsgDebug('kiosko: ' + isInKiosk.toString());
-                    });
-                    break;
-                case 'launcher':
-                    KioskPlugin.isSetAsLauncher(function (isLauncher) {
-                        MsgDebug('launcher ' + isLauncher.toString());
-                    });
-                    break;
-                case 'quit':
-                    var clave = window.prompt("Por favor, ingresa tu clave: ");
-                    if (clave == "kbk123") {
-                        alert("ATENCIÓN: se va a salir del modo Kiosko!");
-                        KioskPlugin.exitKiosk();
-                    }
-                    break;
-                default:
-                    SendToServer({ game: msg });
-                    break;
-            }
-        }, false);
+        window.addEventListener('online', SetOnlineMode);
+        window.addEventListener('offline', SetOfflineMode);
+        window.addEventListener("message", ReceiveMessage, false);
     }
     function limpiarDebug() {
-        document.getElementById("debug").innerText = '';
+        GetById("debug").innerText = '';
     }
     function MsgDebug(msg) {
-        document.getElementById("debug").innerText = msg;
+        GetById("debug").innerText = msg;
         setTimeout(limpiarDebug, 2000);
     }
     function SendToServer(data) {
         xmlhttp.open("POST", ServerURL + "api.php");
         xmlhttp.setRequestHeader("Content-Type", "application/json");
         xmlhttp.send(JSON.stringify(data));
+    }
+    function SetOnlineMode() {
+        GetById("offline").style.display = "none";
+        GetById("games").style.display = "block";
+    }
+    function SetOfflineMode() {
+        GetById("offline").style.display = "block";
+        GetById("games").style.display = "none";
+    }
+    function GetById(id) {
+        return document.getElementById(id);
+    }
+    function ReceiveMessage(e) {
+        var msg = e.data.data;
+        switch (msg) {
+            case 'kiosko':
+                KioskPlugin.isInKiosk(function (isInKiosk) {
+                    MsgDebug('kiosko: ' + isInKiosk.toString());
+                });
+                break;
+            case 'launcher':
+                KioskPlugin.isSetAsLauncher(function (isLauncher) {
+                    MsgDebug('launcher ' + isLauncher.toString());
+                });
+                break;
+            case 'quit':
+                var clave = window.prompt("Por favor, ingresa tu clave: ");
+                if (clave == "kbk123") {
+                    alert("ATENCIÓN: se va a alterar el modo Kiosko!");
+                    KioskPlugin.exitKiosk();
+                }
+                break;
+            default:
+                SendToServer({ game: msg });
+                break;
+        }
     }
 });
 //# sourceMappingURL=application.js.map

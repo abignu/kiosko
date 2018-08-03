@@ -10,3 +10,5 @@ ios
 windows
 simulation
 bin
+*.png
+res

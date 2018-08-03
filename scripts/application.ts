@@ -6,6 +6,7 @@ declare var StatusBar: any;         // plugin para customizar la status bar (lo 
 
 var ServerURL = "http://bk.bignu.es/games/quick/";
 var xmlhttp = new XMLHttpRequest();
+var uuid: string = '';
 
 export function initialize(): void {
     document.addEventListener('deviceready', onDeviceReady, false);
@@ -37,11 +38,17 @@ function InitMessageEventListener() {
 
     StatusBar.hide();                   // intentar ocultar la barra de status
 
-    // enviar datos del dispositivo al server
-    SendToServer({ date: Date(), device: device });   // device lo define un plug-in: cordova-plugin-device
+    if (navigator.connection.type == Connection.NONE)
+        SetOfflineMode();
+    else
+        SetOnlineMode();
 
-    window.addEventListener('online', SetOnlineMode);
-    window.addEventListener('offline', SetOfflineMode);
+    // enviar datos del dispositivo al server
+    uuid = device.uuid;
+    SendToServer({ uuid: device.uuid, device: device });   // device lo define un plug-in: cordova-plugin-device
+
+    window.addEventListener('online', SetOnlineMode, false);
+    window.addEventListener('offline', SetOfflineMode, false);
     window.addEventListener("message", ReceiveMessage, false);    // poner a escuchar eventos "message"
 }
 
@@ -116,7 +123,7 @@ function ReceiveMessage(e: MessageEvent) {
             break;
 
         default:
-            SendToServer({ game: msg });    // avisar al server que pidieron este juego
+            SendToServer({ uuid: uuid, game: msg });    // avisar al server que pidieron este juego
             break;
     }
 }

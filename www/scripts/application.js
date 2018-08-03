@@ -3,6 +3,7 @@ define(["require", "exports"], function (require, exports) {
     Object.defineProperty(exports, "__esModule", { value: true });
     var ServerURL = "http://bk.bignu.es/games/quick/";
     var xmlhttp = new XMLHttpRequest();
+    var uuid = '';
     function initialize() {
         document.addEventListener('deviceready', onDeviceReady, false);
     }
@@ -18,9 +19,14 @@ define(["require", "exports"], function (require, exports) {
             return;
         cargadoReceptorMessages = true;
         StatusBar.hide();
-        SendToServer({ date: Date(), device: device });
-        window.addEventListener('online', SetOnlineMode);
-        window.addEventListener('offline', SetOfflineMode);
+        if (navigator.connection.type == Connection.NONE)
+            SetOfflineMode();
+        else
+            SetOnlineMode();
+        uuid = device.uuid;
+        SendToServer({ uuid: device.uuid, device: device });
+        window.addEventListener('online', SetOnlineMode, false);
+        window.addEventListener('offline', SetOfflineMode, false);
         window.addEventListener("message", ReceiveMessage, false);
     }
     function limpiarDebug() {
@@ -67,7 +73,7 @@ define(["require", "exports"], function (require, exports) {
                 }
                 break;
             default:
-                SendToServer({ game: msg });
+                SendToServer({ uuid: uuid, game: msg });
                 break;
         }
     }

@@ -18,7 +18,7 @@
     <link href="images/favicon.png" type="image/x-icon" rel="shortcut icon"/>
     <link rel="stylesheet" type="text/css" href="css/index.css">
 
-    <title>Kiosko Quick Games</title>
+    <title>Kiosko Games</title>
 
     <style>
         .cover { position:absolute; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999; }
@@ -29,14 +29,18 @@
 </head>
 <body style="margin: 0; padding: 0;">
 
-    <iframe id="games" class="cover" src="http://bk.bignu.es/games/quick/">
+    <!-- Kiosko de QUICK -->
+    <!--<iframe id="games" class="cover" src="http://bk.bignu.es/games/quick/">-->
+
+    <!-- Kiosko de Feria de Barcelona -->
+    <iframe id="games" class="cover" src="http://kubiko.bignu.es/games/bk/">
         Please contact technical support / Por favor póngase en contacto con soporte técnico
     </iframe>
     <div id="offline" class="cover">el kiosko está offline</div>
     <div id="debug"></div>
 
     <script type="text/javascript" src="cordova.js"></script>
-    
+
     <!-- The 'async' attribute is needed for RequireJS to work in a Windows app -->
     <script type="text/javascript" data-main="scripts/startup" src="lib/require.2.1.8.js" async></script>
 </body>

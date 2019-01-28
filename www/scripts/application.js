@@ -1,7 +1,7 @@
 define(["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var ServerURL = "http://bk.bignu.es/games/quick/";
+    var ServerURL = "http://kubiko.bignu.es/games/bk/";
     var xmlhttp = new XMLHttpRequest();
     var uuid = '';
     function initialize() {

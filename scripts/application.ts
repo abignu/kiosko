@@ -4,7 +4,12 @@ declare var KioskPlugin: any;       // plugin que convierte en kiosko la pantall
 declare var device: any;            // plugin que devuelve datos del hardware (SN, UUID, etc.)
 declare var StatusBar: any;         // plugin para customizar la status bar (lo usamos para intentar ocultarla)
 
-var ServerURL = "http://bk.bignu.es/games/quick/";
+//ACÁ PONER LA URL A LA QUE SE ENVIARÁN LOS COMANDOS DE API Y DESDE DONDE SE CARGARÁN LOS JUEGOS, SLIDESHOW, ETC.
+//EN TEORÍA SÓLO CAMBIA LA URL DE ESTE ARCHIVO PARA ALTERNAR ENTRE QUICK / BK / Y OTROS QUE SURJAN EN EL FUTURO
+//var ServerURL = "http://bk.bignu.es/games/quick/";        // Juegos Quick
+var ServerURL = "http://kubiko.bignu.es/games/bk/";         // Juegos Feria Barcelona / Burger King
+//var ServerURL = "http://test-bk-php73.bignu.es/games/quick/";         // Test PHP v7.3
+
 var xmlhttp = new XMLHttpRequest();
 var uuid: string = '';
 

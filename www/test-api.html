@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html style="margin: 0; padding: 0;">
+<head>
+
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src 'self' 'unsafe-eval' data: blob: filesystem: ws: gap: file: cdvfile: https://ssl.gstatic.com *;
+                   style-src * 'unsafe-inline';
+                   script-src * 'unsafe-inline' 'unsafe-eval';
+                   img-src * data: 'unsafe-inline';
+                   connect-src * 'unsafe-inline';
+                   child-src *;
+                   frame-src *;">
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <link href="images/favicon.png" type="image/x-icon" rel="shortcut icon"/>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+
+    <title>Kiosko Games</title>
+
+    <style>
+        .cover { position:absolute; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999; }
+        iframe#games { display: block; }
+        div#offline { display: none; background-image:url(./images/kiosko-offline.jpg); background-position: center; background-size: cover; background-repeat: no-repeat; }
+        div#debug { height: 100px; width: 200px; position: fixed; top: 50px; left: 200px; color: #fff; z-index: 1000000; }
+    </style>
+</head>
+<body style="margin: 0; padding: 0;">
+
+    <!-- Kiosko de QUICK -->
+    <!--<iframe id="games" class="cover" src="http://bk.bignu.es/games/quick/">-->
+
+    <!-- Kiosko de Feria de Barcelona -->
+    <iframe id="games" src="http://kubiko.bignu.es/games/bk/">
+        Please contact technical support / Por favor póngase en contacto con soporte técnico
+    </iframe>
+    <div id="offline" class="cover">el kiosko está offline</div>
+    <div id="debug"></div>
+
+    <!-- The 'async' attribute is needed for RequireJS to work in a Windows app -->
+    <a href="#" onclick="javascript:SendToServer({ uuid: 'test', game: 'test' });">Enviar test al server (API)</a>
+
+    <script type="text/javascript">
+
+        var ServerURL = "http://test-bk-php73.bignu.es/games/quick/";
+        var xmlhttp = new XMLHttpRequest();
+        var uuid = '';
+        function onDeviceReady() {
+            console.log("device ready!");
+            //InitMessageEventListener();
+        }
+        var cargadoReceptorMessages = false;
+        function InitMessageEventListener() {
+            if (cargadoReceptorMessages)
+                return;
+            cargadoReceptorMessages = true;
+            if (navigator.connection.type == Connection.NONE)
+                SetOfflineMode();
+            else
+                SetOnlineMode();
+            uuid = device.uuid;
+            SendToServer({ uuid: device.uuid, device: device });
+            window.addEventListener('online', SetOnlineMode, false);
+            window.addEventListener('offline', SetOfflineMode, false);
+            window.addEventListener("message", ReceiveMessage, false);
+        }
+        function limpiarDebug() {
+            GetById("debug").innerText = '';
+        }
+        function MsgDebug(msg) {
+            GetById("debug").innerText = msg;
+            setTimeout(limpiarDebug, 2000);
+        }
+        function SendToServer(data) {
+            xmlhttp.open("POST", ServerURL + "api.php");
+            xmlhttp.setRequestHeader("Content-Type", "application/json");
+            xmlhttp.send(JSON.stringify(data));
+        }
+        function SetOnlineMode() {
+            GetById("offline").style.display = "none";
+            GetById("games").style.display = "block";
+        }
+        function SetOfflineMode() {
+            GetById("offline").style.display = "block";
+            GetById("games").style.display = "none";
+        }
+        function GetById(id) {
+            return document.getElementById(id);
+        }
+        function ReceiveMessage(e) {
+            var msg = e.data.data;
+            switch (msg) {
+                case 'kiosko':
+                    KioskPlugin.isInKiosk(function (isInKiosk) {
+                        MsgDebug('kiosko: ' + isInKiosk.toString());
+                    });
+                    break;
+                case 'launcher':
+                    KioskPlugin.isSetAsLauncher(function (isLauncher) {
+                        MsgDebug('launcher ' + isLauncher.toString());
+                    });
+                    break;
+                case 'quit':
+                    var clave = window.prompt("Por favor, ingresa tu clave: ");
+                    if (clave == "kbk123") {
+                        alert("ATENCIÓN: se va a alterar el modo Kiosko!");
+                        KioskPlugin.exitKiosk();
+                    }
+                    break;
+                default:
+                    SendToServer({ uuid: uuid, game: msg });
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
+

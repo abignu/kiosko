@@ -1,9 +1,10 @@
 define(["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var ServerURL = "http://kubiko.bignu.es/games/bk/";
+    var ServerURL = "https://bk.kubikoplaygrounds.com/games/bk/";
     var xmlhttp = new XMLHttpRequest();
     var uuid = '';
+    var onlineStatus = "off";
     function initialize() {
         document.addEventListener('deviceready', onDeviceReady, false);
     }
@@ -42,10 +43,12 @@ define(["require", "exports"], function (require, exports) {
         xmlhttp.send(JSON.stringify(data));
     }
     function SetOnlineMode() {
+        onlineStatus = "on";
         GetById("offline").style.display = "none";
         GetById("games").style.display = "block";
     }
     function SetOfflineMode() {
+        onlineStatus = "off";
         GetById("offline").style.display = "block";
         GetById("games").style.display = "none";
     }
@@ -66,15 +69,33 @@ define(["require", "exports"], function (require, exports) {
                 });
                 break;
             case 'quit':
-                var clave = window.prompt("Por favor, ingresa tu clave: ");
-                if (clave == "kbk123") {
-                    alert("ATENCIÓN: se va a alterar el modo Kiosko!");
-                    KioskPlugin.exitKiosk();
-                }
+                Quit();
                 break;
             default:
                 SendToServer({ uuid: uuid, game: msg });
                 break;
+        }
+    }
+    var quitTimeout, vecesQuit = 0;
+    function tryQuit() {
+        if (onlineStatus == "on")
+            return;
+        clearTimeout(quitTimeout);
+        {
+            vecesQuit++;
+            if (vecesQuit == 5)
+                Quit();
+        }
+        quitTimeout = setTimeout(limpiarQuit, 1500);
+    }
+    function limpiarQuit() {
+        vecesQuit = 0;
+    }
+    function Quit() {
+        var clave = window.prompt("Por favor, ingresa tu clave: ");
+        if (clave == "kbk123") {
+            alert("ATENCIÓN: se va a alterar el modo Kiosko!");
+            KioskPlugin.exitKiosk();
         }
     }
 });

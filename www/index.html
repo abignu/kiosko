@@ -43,6 +43,46 @@
 
     <!-- The 'async' attribute is needed for RequireJS to work in a Windows app -->
     <script type="text/javascript" data-main="scripts/startup" src="lib/require.2.1.8.js" async></script>
+    <script>
+        var onlineStatus = "off";
+        var quitTimeout, vecesQuit = 0;
+
+        function Quit() {
+            vecesQuit = 0;
+            var clave = window.prompt("Por favor, ingresa tu clave: ");
+
+            if (clave == "kbk123") {
+
+                alert("ATENCIÓN: se va a alterar el modo Kiosko!")
+                KioskPlugin.exitKiosk();
+            }
+        }
+
+        // contar los clicks en la pantalla de offline para disparar la opción de Quit del modo quiosko
+        // el Quit también es lanzado desde la página (menú de los juegos, al dar 5 clicks en el logo)
+        // Vale decir que el Quit viene por dos lados:
+        //    1) si está online: en el menú del juego (server de Kubiko en 1and1) cuenta los click en el logo 
+        //       y por mensajería llama al Quit de este JS(que está en el index de al App Cordova)
+        //    2) si está offline: está visible el div#offline, entonces cuento los clicks acá mismo y disparo el Quit
+        function tryQuit()      // llamada con un click en div#offline
+        {
+            if (onlineStatus == "on")       // por las dudas protejo (aunque no debería entrar si el div#offline esta apagado)
+                return; 
+
+            clearTimeout(quitTimeout);
+            {
+                vecesQuit++;
+                if (vecesQuit == 5) Quit();
+            }
+            quitTimeout = setTimeout(limpiarQuit, 1500);
+        }
+
+        function limpiarQuit() {
+
+            vecesQuit = 0;
+        }
+
+    </script>
 </body>
 </html>
 
